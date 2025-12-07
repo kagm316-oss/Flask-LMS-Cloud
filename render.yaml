@@ -1,0 +1,26 @@
+# Render.com Deployment Configuration for Flask LMS
+
+services:
+  - type: web
+    name: flask-lms-api
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "cd backend && pip install -r requirements.txt"
+    startCommand: "cd backend && gunicorn app_dashboard:app --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: ORACLE_USER
+        value: ADMIN
+      - key: ORACLE_PASSWORD
+        sync: false
+      - key: ORACLE_DSN
+        value: flasklms_high
+      - key: ORACLE_WALLET_PASSWORD
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
